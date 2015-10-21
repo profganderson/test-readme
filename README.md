@@ -19,6 +19,11 @@
 - Repeat this process for installing Bootstrap and JQuery
 - Click on the Close Button
 
+### Import ASP.NET MVC
+- Using Manage NuGet Packages for Solution
+- Search for ASP.NET MVC
+- Install this package
+
 ## Create data model
 
 This tutorial will consist of creating one model and one table called Player
