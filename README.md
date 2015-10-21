@@ -33,7 +33,7 @@ Add the following code:
 ```csharp
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
+...
 public class Player
 {
   [DatabaseGenerated(DatabaseGeneratedOption.None)]
@@ -78,8 +78,78 @@ namespace MyFirstDatabase.DAL
 ### Add connection string
 
 - Open web.config 
+- In the <configuration> node add:
 
+```
+<connectionStrings>
+    <add name="SportsContext" connectionString="Data Source=(LocalDb)\v11.0;AttachDbFilename=|DataDirectory|\SportsContext.mdf;Initial Catalog=SportsContext;Integrated Security=SSPI;" providerName="System.Data.SqlClient" />
+  </connectionStrings>
+```
 
+- In the <entityFramework> node add:
+
+```
+<contexts>
+      <context type="MyFirstDatabase.DAL.SportsContext, MyFirstDatabase">
+        <databaseInitializer type="MyFirstDatabase.DAL.SportsInitializer, MyFirstDatabase" />
+      </context>
+</contexts>
+```
+
+### Create Initializer
+- In the DAL folder, right-click and choose Add | Class
+- Name the file SportsInitializer.cs
+
+Add the following code: 
+```
+using MyFirstDatabase.Models;
+...
+public class SportsInitializer : System.Data.Entity.DropCreateDatabaseAlways<SportsContext>
+{
+
+}
+```
+
+### Add Application Start Function
+
+- Open the Global.asax.cs file
+- Add the following code to the Application_Start method:
+
+```csharp
+using MyFirstDatabase.DAL;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Routing;
+
+namespace MyFirstDatabase
+{
+    public class MvcApplication : System.Web.HttpApplication
+    {
+        protected void Application_Start()
+        {
+            Database.SetInitializer<SportsContext>(new CreateDatabaseIfNotExists<SportsContext>());
+
+            AreaRegistration.RegisterAllAreas();
+            RouteConfig.RegisterRoutes(RouteTable.Routes);
+        }
+    }
+}
+```
+### Build Scaffoled Controller
+
+**Save and build the project**
+
+- Right-mouse click on the Controllers folder
+- Choose Add | New Scaffolded item
+- Select MVC 5 Controller with views, using Entity Framework and click the Add button
+- Select Player as the Model class
+- Select SportsContext as the Data context class
+- Name the Controller PlayersController
+- Click the Add button
 
 
 
