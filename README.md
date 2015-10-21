@@ -139,7 +139,7 @@ namespace MyFirstDatabase
     }
 }
 ```
-### Build Scaffoled Controller
+### Build Scaffolded Controller
 
 **Save and build the project**
 
@@ -151,6 +151,19 @@ namespace MyFirstDatabase
 - Name the Controller PlayersController
 - Click the Add button
 
+### Change routeConfig.cs
+
+- Open the RouteConfig.cs file
+
+Change the defaults to be:
+
+```
+routes.MapRoute(
+                name: "Default",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Players", action = "Index", id = UrlParameter.Optional }
+            );
+```
 
 
 
